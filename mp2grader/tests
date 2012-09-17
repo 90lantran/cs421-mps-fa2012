@@ -1,0 +1,41 @@
+let rubric_version = "1.1"
+(* Added some 0 pt tests for polymorphism checks *)
+let rubric_title = "CS421 Fall 2012 MP2"
+(**************************************************************************
+ * You can add new test cases by adding new elements to the following lists
+ * Format is:
+ * TEST<X>ARG(<weight>, <function_name>, <arg1>, <arg2>, ..., <argX>)
+ *
+ * <X> is the number of argument that the function being tested takes.
+ **************************************************************************)
+
+(* This list is for regular problems *)
+let rubric =
+[
+     TEST1ARG(1, com_mul, ((4.,0.),(2.,3.)));
+
+     TEST1ARG(1, s, 5);
+
+     TEST2ARG(1, list_all, (fun x -> x < 0), [1;-1;0;4;-2;5]);
+     TEST2ARG(1, list_all, (fun x -> x < 0.), [-1.;2.;3.]);
+
+     TEST2ARG(1, is_less, 5, [1;34;42;6]);
+     TEST2ARG(1, is_less, 5., [1.;34.;42.;6.]);
+
+     TEST2ARG(1, interleave, [1;2;5], [3;4]);
+     TEST2ARG(0, interleave, [()], [()]);
+     
+
+     TEST1ARG(1, separate, [1; 3; 2; 4; 5]);
+     TEST1ARG(0, separate, [(); ()]);
+
+     TEST1ARG(1, odds, [3;7;9]);
+
+     TEST2ARG(1, check_adj,[[1;2;3;4];[3;0;4;5];[1;4;3;5];[2;1];[1;2];[2;3;4]], (0,3))
+]
+(* Note: the last entry should not be followed by a semicolon. *)
+
+let extra_rubric = 
+[ 
+     TEST2ARG(1, check_path, [[1;2;3;4];[3;0;4;5];[1;4;3;5];[2;1];[1;2];[2;3;4]], (0,5))
+]
