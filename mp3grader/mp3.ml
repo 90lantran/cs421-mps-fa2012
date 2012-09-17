@@ -74,19 +74,9 @@ let app_all fs list =
 
 (* Extra Credit, Problem 9 *)
 let sub_list2 l1 l2 =
-  raise(Failure "Function not implemented yet.")
-  (*
-  let findFirstLoc ls x = 
-    (fun x -> match x with [] -> ([],false) | (x::xs) -> (xs,true)) (
-      List.fold_left (fun l a -> if a = x then 
-                      if l = [] then [a] else l @ [a]
-                      else
-                      if l = [] then [] else l @ [a] ) [] ls )
+  let comp list x = match list with [] -> []
+                | head::tail -> if x = head then tail else list
   in
-  let testFromFirstLoc ls = 
-    List.fold_left (fun ls a -> 
-                  if ls = ([],false) || findFirstLoc ls a = ([],false) then ([],false)
-                  else (findFirstLoc ls a,true)
-                  ) (ls,true) l2
-  in
-  List.fold_left (fun no a ->  ) false l1 *)
+  let result = List.fold_left comp l2 l1 in
+  if result = [] then true else false
+
