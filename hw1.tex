@@ -1,0 +1,118 @@
+%\documentclass[12pt]{article}
+%\documentclass[10pt,conference]{IEEEtran}
+%\documentclass[12pt,draftcls,onecolumn]{IEEEtran}
+\documentclass[journal,12pt,draftclsnofoot,onecolumn]{IEEEtran}
+%\documentclass[conference]{IEEEtran}
+%\documentclass[10pt,journal,onecolumn]{IEEEtran}
+%\documentclass[10pt,journal,twocolumn]{IEEEtran}
+%\documentclass[12pt,journal,onecolumn]{IEEEtran}
+%\documentclass[twocolumn,11pt]{article}
+%\documentclass[12pt]{article}
+%\textwidth=6.6in
+
+%\usepackage{amsmath,amssymb,epsf,latexsym,makeidx}
+\usepackage[cm]{fullpage}
+%\usepackage{setspace} % this is with \doublespacing, must be put after\begin{document}
+%\usepackage{graphicx}
+%\usepackage{caption,subcaption} % for subfigures
+
+%\setlength{\topmargin}{-0.6in}
+%\setlength{\oddsidemargin}{-0.05in}
+%\setlength{\textwidth}{6.6in}
+%\setlength{\textheight}{9.0625in}
+
+
+
+
+\renewcommand{\baselinestretch}{1}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{defi}{Definition}
+%\newenvironment{proof}{\indent {\bf Proof.}}{\hfill$\bf  \Box$\bigskip}
+%\newenvironment{proofof}{\indent {\bf Proof of}}{\hfill$\bf  \Box$\bigskip}
+
+\newcommand{\post}[2]{
+\centering \leavevmode
+%  (Sichao's version:   \includegraphics[width=#2cm,height=#3cm]{#1.eps}
+ \includegraphics[width=#2cm]{#1}
+ }
+
+%\evensidemargin 0.6in
+%\oddsidemargin -0.2in
+%\topmargin 0in
+%\textwidth 6.8in
+%\headheight 0.0in
+%\headsep 0.25in
+%\textheight 8.9in
+%\footskip 0.25in
+%\evensidemargin 0.0in
+%\oddsidemargin 0.0in
+%\topmargin -0.05in
+%\textwidth 6.5in
+%\headheight 0.0in
+%\headsep 0.0in
+%\textheight 8.9in
+%\footskip 0.25in
+
+
+\newcommand{\mat}[2][rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr]{\left[
+                    \begin{array}{#1}
+                    #2\\
+                    \end{array}
+                    \right]}
+
+\newcommand{\dat}[2][rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr]{\left|
+                    \begin{array}{#1}
+                    #2\\
+                    \end{array}
+                    \right|}
+
+
+\title{homework 1, CS 421}
+\author{
+\authorblockN{Ji Zhu, jizhu1@illinois.edu}\\
+\authorblockA{Department of Electrical and Computer Engineering \\
+ and the Coordinated Science Laboratory  \\
+ University of Illinois at Urbana-Champaign}
+}
+
+\begin{document}
+%\doublespacing
+\maketitle
+
+Apply $\rho_{i}$ to denote the environment at the $i$th point.
+\begin{enumerate}
+\item $\rho_{1} = \emptyset$
+\item $\rho_{2} = \{a \rightarrow 10, x\rightarrow 21\}$
+\item $\rho_{3} = \{ \{f \rightarrow <x\rightarrow y \rightarrow x - y + a, \rho_{2}>\} + \rho_{2}\} $
+\item $ \rho_{4} =\{ \{b \rightarrow 21, a\rightarrow 5, x\rightarrow 21\}+\{f \rightarrow <x\rightarrow y \rightarrow x - y + a, \rho_{2}>\} \}$, $\rho_{3}$ is put into the stack.
+\item $\rho_{3}$ is retrieved from the stack, $\rho_{5} = \rho_{3}$
+\item $\rho_{6} = \{ \{f \rightarrow <x\rightarrow y \rightarrow x - y + a, \rho_{2}>\} + \{a\rightarrow 10, x\rightarrow 1\} \}$
+\item $ \rho_{7} = \{ \{h\rightarrow <y\rightarrow f~2 ~20, \rho_{6}>\}  + \rho_{6}  \}  $
+\item $\rho_{7}$ is put into the stack,
+$$\rho_{8} =\{ \{h\rightarrow <y \rightarrow f~(y+4), \rho_{7}>\} + \{f\rightarrow <x\rightarrow y\rightarrow x * y, \rho'>\} + \rho''\} $$
+where $\rho' = \{ \{h\rightarrow <y \rightarrow f~(y+4), \rho_{7}>\} + \rho_{6} \}$,  $\rho'' =\{a\rightarrow 10, x\rightarrow 1\} $
+\item $\rho_{7}$ is retrieved from the stack, and $\rho_{9} = \rho_{7}$
+\end{enumerate}
+
+%\section{}
+
+%\begin{figure} 
+%\begin{subfigure}[b]{0.5\textwidth}
+%              \post{trees4.pdf}{7}
+%                \caption{...}
+%                \label{fig:tree4}
+%\end{subfigure}
+%\caption{...} \label{fig:trees}
+%\end{figure}
+
+
+\bibliographystyle{IEEEtran}
+%\bibliography{prelim.bib}
+
+\end{document}

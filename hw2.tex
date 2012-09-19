@@ -1,0 +1,157 @@
+%\documentclass[12pt]{article}
+%\documentclass[10pt,conference]{IEEEtran}
+%\documentclass[12pt,draftcls,onecolumn]{IEEEtran}
+\documentclass[journal,12pt,draftclsnofoot,onecolumn]{IEEEtran}
+%\documentclass[conference]{IEEEtran}
+%\documentclass[10pt,journal,onecolumn]{IEEEtran}
+%\documentclass[10pt,journal,twocolumn]{IEEEtran}
+%\documentclass[12pt,journal,onecolumn]{IEEEtran}
+%\documentclass[twocolumn,11pt]{article}
+%\documentclass[12pt]{article}
+%\textwidth=6.6in
+
+%\usepackage{amsmath,amssymb,epsf,latexsym,makeidx}
+\usepackage[cm]{fullpage}
+\usepackage{amsfonts,amsmath}
+%\usepackage{setspace} % this is with \doublespacing, must be put after\begin{document}
+\usepackage{graphicx}
+\usepackage{url}
+%\usepackage{caption,subcaption} % for subfigures
+
+%\setlength{\topmargin}{-0.6in}
+%\setlength{\oddsidemargin}{-0.05in}
+%\setlength{\textwidth}{6.6in}
+%\setlength{\textheight}{9.0625in}
+
+
+
+
+\renewcommand{\baselinestretch}{1}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{defi}{Definition}
+%\newenvironment{proof}{\indent {\bf Proof.}}{\hfill$\bf  \Box$\bigskip}
+%\newenvironment{proofof}{\indent {\bf Proof of}}{\hfill$\bf  \Box$\bigskip}
+
+\newenvironment{problem}[1]{{\bf Problem. #1}}{\indent \hfill\bigskip}
+\newenvironment{solution}{{\bf Solution: }}{\hfill\bigskip}
+
+\newcommand{\prob}[3]{
+{\bf Problem. #1}
+{\indent #2}
+
+{\bf Solution: } #3\bigskip
+
+}
+
+\newcommand{\vect}[2]{
+\left\langle#1,#2\right\rangle
+}
+
+
+\newcommand{\post}[2]{
+\centering \leavevmode
+%  (Sichao's version:   \includegraphics[width=#2cm,height=#3cm]{#1.eps}
+ \includegraphics[width=#2cm]{#1}
+ }
+
+%\evensidemargin 0.6in
+%\oddsidemargin -0.2in
+%\topmargin 0in
+%\textwidth 6.8in
+%\headheight 0.0in
+%\headsep 0.25in
+%\textheight 8.9in
+%\footskip 0.25in
+%\evensidemargin 0.0in
+%\oddsidemargin 0.0in
+%\topmargin -0.05in
+%\textwidth 6.5in
+%\headheight 0.0in
+%\headsep 0.0in
+%\textheight 8.9in
+%\footskip 0.25in
+
+
+\newcommand{\mat}[2][rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr]{\left[
+                    \begin{array}{#1}
+                    #2\\
+                    \end{array}
+                    \right]}
+
+\newcommand{\dat}[2][rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr]{\left|
+                    \begin{array}{#1}
+                    #2\\
+                    \end{array}
+                    \right|}
+
+\newcommand{\ben}{\begin{eqnarray*}}
+\newcommand{\een}{\end{eqnarray*}}
+\newcommand{\non}{\nonumber}
+\newcommand{\benu}{\begin{enumerate}}
+\newcommand{\ennu}{\end{enumerate}}
+
+\title{Homework 2 for cs 421, Fall 2012}
+\author{
+\authorblockN{Ji Zhu, jizhu1}
+}
+
+
+
+
+
+\begin{document}
+%\doublespacing
+\maketitle
+
+\begin{enumerate}
+\item (1). $\rho_{1} = \{x\rightarrow 5\}$, $\rho_{2} = \{x\rightarrow 5, y\rightarrow 3, z\rightarrow 8\}$, the environment at point 1 is
+$$
+a_{1} = \{\text{plus\_x}\rightarrow \vect{y\rightarrow x+y}{ \rho_{1} }\} + \rho_{2}
+$$
+
+(2). $\rho_{3} = \{x\rightarrow 5, y\rightarrow -5, z\rightarrow 8\}$, the environment at point 2 is
+$$
+a_{2}=\{ \text{sub\_z}\rightarrow \vect{x\rightarrow y-z}{a_{1}} \}+
+\{\text{plus\_x}\rightarrow \vect{y\rightarrow x+y}{ \rho_{1} }\} + \rho_{3}
+$$
+
+(3). The environment is
+$$
+a_{3} = \{\text{f\_z}\rightarrow \vect{x\rightarrow val}{a_{2}}\} +
+\{ \text{sub\_z}\rightarrow \vect{x\rightarrow y-z}{a_{1}} \}+
+\{\text{plus\_x}\rightarrow \vect{y\rightarrow x+y}{ \rho_{1} }\} + \rho_{3}
+$$
+
+\item The evaluation process is as follows:
+\begin{itemize}
+\item The value of $y$ is given to $x$: $x\rightarrow y\rightarrow -5$.
+\item $x=-5$ is given to plus\_x, in the function of plus\_x, $y\rightarrow x\rightarrow -5$, $x\rightarrow 5$ from $\rho_{1}$, and result $0$ is returned.  
+\item The result $0$ is compared with $z\rightarrow 8$ in function f\_z, the result is true.
+\item $x = -5$ is given to sub\_z, in function sub\_z, $x\rightarrow -5$, $y\rightarrow 3, z\rightarrow 8$ from $a_{1}$, and result $3-8 = -5$ is returned. 
+\item Back in function f\_z, the returned value $-5$ is returned and outputted.
+\end{itemize}
+\end{enumerate}
+
+
+%\section{}
+
+%\begin{figure} 
+%\begin{subfigure}[b]{0.5\textwidth}
+%              \post{trees4.pdf}{7}
+%                \caption{...}
+%                \label{fig:tree4}
+%\end{subfigure}
+%\caption{...} \label{fig:trees}
+%\end{figure}
+
+
+\bibliographystyle{IEEEtran}
+%\bibliography{prelim.bib}
+
+\end{document}
