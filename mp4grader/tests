@@ -1,0 +1,87 @@
+(**************************************************************************
+ * You can add new test cases by adding new elements to the following lists
+ * Format is:
+ * TEST<X>ARG(<weight>, <function_name>, <arg1>, <arg2>, ..., <argX>)
+ *
+ * <X> is the number of argument that the function being tested takes.
+ **************************************************************************)
+open Mp4common
+
+(* This list is for regular problems *)
+let rubric =
+[
+  TEST3ARG(1, subk, 10, 5, report);
+  TEST3ARG(1, catk, "hi ", "there", (fun x -> x));
+  TEST3ARG(0, plusk, 3.0, 4.0,
+  (fun x -> Solution.multk x x 
+   (fun y -> (print_string "Result: ";print_float y; print_newline()))));
+  TEST3ARG(0, lessk, 2, 7, (fun b -> (report (if b then 3 else 4))));
+  TEST3ARG(0, addk, 1, 2, (fun x -> ()));
+  TEST3ARG(0, subk, 1, 2, (fun x -> ()));
+  TEST3ARG(0, timesk, 1, 2, (fun x -> ()));
+  TEST3ARG(0, plusk, 1.0, 2.0, (fun x -> ()));
+  TEST3ARG(0, take_awayk, 1.0, 2.0, (fun x -> ()));
+  TEST3ARG(0, multk, 1.0, 2.0, (fun x -> ()));
+  TEST3ARG(0, catk, "a", "b", (fun x -> ()));
+  TEST3ARG(0, consk, 1, [], (fun x -> ()));
+  TEST3ARG(0, lessk, 1, 2, (fun x -> ()));
+  TEST3ARG(0, eqk, 1, 2, (fun x -> ()));
+  TEST3ARG(0, addk, 1, 2, (fun x -> x));
+  TEST3ARG(0, subk, 1, 2, (fun x -> x));
+  TEST3ARG(0, timesk, 1, 2, (fun x -> x));
+  TEST3ARG(0, plusk, 1.0, 2.0, (fun x -> x));
+  TEST3ARG(0, take_awayk, 1.0, 2.0, (fun x -> x));
+  TEST3ARG(0, multk, 1.0, 2.0, (fun x -> x));
+  TEST3ARG(0, catk, "a", "b", (fun x -> x));
+  TEST3ARG(0, consk, 1, [], (fun x -> x));
+  TEST3ARG(0, lessk, 1, 2, (fun x -> x));
+  TEST3ARG(0, eqk, 1, 2, (fun x -> x));
+
+  TEST5ARG(1, abcdk, 2.0, 3.0, 4.0, 5.0, (fun y -> report (int_of_float y)));
+  TEST5ARG(0, abcdk, 1.0, 2.0, 3.0, 4.0, (fun x -> ()));
+  TEST5ARG(0, abcdk, 1.0, 2.0, 3.0, 4.0, (fun x -> x));
+
+  TEST2ARG(1, fact_range, 5, 1);
+  TEST3ARG(1, fact_rangek, 7, 5, report);
+  TEST3ARG(0, fact_rangek, 0, 0, (fun x -> ()));
+  TEST3ARG(0, fact_rangek, 0, 0, (fun x -> x));
+
+  TEST1ARG(1, duplicate_evens, [1; 2; 3; 4]);
+  TEST1ARG(0, duplicate_evens, ["a"]);
+  TEST2ARG(1, duplicate_evensk, [1; 2; 3; 4], Solution.duplicate_evens);
+  TEST2ARG(0, duplicate_evensk, ["a"], (fun x -> ()));
+  TEST2ARG(0, duplicate_evensk, [4.3], (fun x -> x));
+
+  TEST3ARG(1, first_or_default, (fun i -> 0 < i), [1; -2; 3; -4; 5], 0);
+  TEST3ARG(0, first_or_default, (fun i -> true), [()], ());
+  TEST4ARG(1, first_or_defaultk, (Solution.lessk 0), [1; -2; 3; -4; 5], 0, report);
+  TEST4ARG(0, first_or_defaultk, (fun i -> fun f -> true), [()], (), (fun x -> false));
+  TEST4ARG(0, first_or_defaultk, (fun i -> fun f -> 0), [0], 0, (fun x -> x));
+
+  TEST2ARG(1, app_all, [((+) 1); (fun x -> x * x); (fun x -> 13)], 5);
+  TEST3ARG(1, app_allk, [(Solution.addk 1);
+                        (fun x -> Solution.timesk x x);
+                        (fun x -> (fun k -> k 13))],
+              5, (fun x -> x) );
+  TEST3ARG(0, app_allk, [(fun y -> fun k -> k "a")], 1, (fun x -> ()));
+  TEST3ARG(0, app_allk, [(fun y -> fun k -> k true)], "b", (fun x -> x));
+
+  TEST3ARG(1, sum_wholesk, [0; 1; 2; 3], report, (fun i ->
+    print_string ("Error: " ^ (string_of_int i) ^ " is not a whole number");
+    print_newline()));
+  TEST3ARG(0, sum_wholesk, [], (fun x -> ()), (fun x -> ()));
+  TEST3ARG(0, sum_wholesk, [], (fun x -> x), (fun x -> x))
+]
+(* Note: the last entry should not be followed by a semicolon. *)
+
+let extra_rubric = [ 
+  TEST4ARG(1, average_averagek,[[1.; 2.; 3.]; [4.; 5.]; [6.; 7.; 8.]; [9.]],
+              (fun a -> print_string "Result: "; print_float a; print_newline()),
+              (fun () -> print_string "Empty list!\n"),
+              (fun n -> print_string "Empty list at position ";
+                        print_int n; print_newline()));
+  TEST4ARG(0, average_averagek, [[1.]],
+              (fun a -> true),
+              (fun () -> true),
+              (fun n -> true))
+]
