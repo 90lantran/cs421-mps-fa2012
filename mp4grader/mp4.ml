@@ -87,5 +87,34 @@ let rec sum_wholesk l k xk =
 
 
 (* Problem 8 *)
-let rec average_averagek ll k empty_list_list_xk empty_list_in_list_xk =
-  raise(Failure "Function not implemented yet.")
+let dividek a b k = k (a/.b)
+let rec sum_list l k = 
+  match l with [] -> k 0.0
+  | head::tail -> sum_list tail (fun y -> plusk head y k)
+
+let rec lengthk l k = 
+  match l with [] -> k 0.0
+  | head::tail -> lengthk tail (fun y -> plusk y 1.0 k)
+
+let averagek l xk k = 
+  eqk l [] (fun b -> if b then xk() else
+    sum_list l (fun s -> lengthk l (fun len -> dividek s len k) )
+  ) 
+
+let average_averagek ll k empty_list_list_xk empty_list_in_list_xk =
+    eqk ll [] (fun b -> if b then empty_list_list_xk() else
+      let rec a_list ll n k = 
+        match ll with [] -> k []
+        | head::tail -> 
+          averagek head (fun ()-> empty_list_in_list_xk n) (fun h -> 
+                a_list tail (n+1) (fun r -> consk h r k))
+      in
+      a_list ll 0 (fun r -> averagek r empty_list_list_xk k)
+    )
+
+
+    average_averagek [[1.; 2.; 3.]; [4.; 5.]; [6.; 7.; 8.]; [9.]]
+(fun a -> print_string "Result: "; print_float a; print_newline())
+(fun () -> print_string "Empty list!"; print_newline())
+(fun n -> print_string "Empty list at position ";
+print_int n; print_newline());;
