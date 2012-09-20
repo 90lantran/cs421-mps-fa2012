@@ -113,8 +113,3 @@ let average_averagek ll k empty_list_list_xk empty_list_in_list_xk =
     )
 
 
-    average_averagek [[1.; 2.; 3.]; [4.; 5.]; [6.; 7.; 8.]; [9.]]
-(fun a -> print_string "Result: "; print_float a; print_newline())
-(fun () -> print_string "Empty list!"; print_newline())
-(fun n -> print_string "Empty list at position ";
-print_int n; print_newline());;
