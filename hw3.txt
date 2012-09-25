@@ -1,0 +1,44 @@
+homework 3, Ji Zhu, jizhu1@illinois.edu
+
+
+The printed result is
+
+val f : (unit -> 'a) -> int -> int = <fun>
+acdf
+ae
+be
+val u : int = 8
+
+
+
+Explanation:
+
+1, first evaluate f (fun () -> print_string "f\n") 3
+	g <- fun () -> print_string "f\n"
+	x <- 3
+	output a
+	(print_string "a"; x > 5) output false, do not evaluate the rest, go directly to else
+	output c
+	z <- 15
+	output d
+	r <- 15
+	g() is ran, output f, 
+Thus, the evaluate f (fun () -> print_string "f\n") 3 output acdf\n, and return 15
+2. then evaluate f (fun () -> print_string "e\n") 15
+	g <- fun () -> print_string "e\n"
+	x <- 15
+	output a
+	(print_string "a"; x > 5) is true, continue to evaluate the following
+	g() is ran, output e\n
+	(g(); x > 10) is true, go to (print_string "b"; x - 7)
+	output b
+	r <- x-7 = 8
+	(g(); r) is evaluated
+	g() is ran, output e\n
+	r=8 is returned, is given to u
+Thus, we get output ae\nbe\n, and u is given 8
+
+
+
+
+
