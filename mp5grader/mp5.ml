@@ -11,7 +11,7 @@ let rec import_list lst =
 
 (* Problem 2 *)
 let list_all =  
-	Rec("list_all","",FnExp("p",FnExp("xs",
+	Val("list_all",FnExp("p",FnExp("xs",
 		IfExp(BinOpAppExp(EqOp,VarExp "xs",ConstExp NilConst),
 	         		ConstExp(BoolConst true),
 	               IfExp(AppExp(VarExp "p", MonOpAppExp(HdOp,VarExp "xs")),
@@ -24,9 +24,9 @@ let list_all =
 
 
 (* Problem 3 *)
-let rec cal_max_exp_height exp = 
+let rec cal_max_exp_height exp = raise (Failure "Not implemented yet")
 
-and cal_max_dec_height dec = 
+and cal_max_dec_height dec = raise (Failure "Not implemented yet")
 
 (* Problem 4 *)
 let rec freeVarsInExp exp = raise (Failure "Not implemented yet")
