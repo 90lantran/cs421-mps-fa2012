@@ -11,7 +11,7 @@ let rec import_list lst =
 
 (* Problem 2 *)
 let list_all =  
-	Val("list_all",FnExp("p",FnExp("xs",
+	Rec("list_all","",FnExp("p",FnExp("xs",
 		IfExp(BinOpAppExp(EqOp,VarExp "xs",ConstExp NilConst),
 	         		ConstExp(BoolConst true),
 	               IfExp(AppExp(VarExp "p", MonOpAppExp(HdOp,VarExp "xs")),
