@@ -10,6 +10,7 @@ let rec import_list lst =
 
 
 (* Problem 2 *)
+(*
 let list_all =  
 	Rec("list_all","",FnExp("p",FnExp("xs",
 		IfExp(BinOpAppExp(EqOp,VarExp "xs",ConstExp NilConst),
@@ -21,6 +22,19 @@ let list_all =
 	               		ConstExp(BoolConst false))
 	           )
 		)))
+*)
+
+let list_all =  
+	Rec("list_all","p",FnExp("xs",
+		IfExp(BinOpAppExp(EqOp,VarExp "xs",ConstExp NilConst),
+	         		ConstExp(BoolConst true),
+	               IfExp(AppExp(VarExp "p", MonOpAppExp(HdOp,VarExp "xs")),
+	               		IfExp(AppExp(AppExp(VarExp "list_all",VarExp "p"),MonOpAppExp(TlOp,VarExp "xs")),
+	               			ConstExp(BoolConst true),
+	               			ConstExp(BoolConst false)),
+	               		ConstExp(BoolConst false))
+	           )
+		))
 
 
 (* Problem 3 *)
