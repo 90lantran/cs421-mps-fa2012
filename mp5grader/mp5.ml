@@ -54,8 +54,8 @@ let rec cal_max_exp_height exp =
 and cal_max_dec_height dec = 
 	match dec with
 	Val(str,exp) -> 1 + cal_max_exp_height exp 
-	| Rec(str1, str2,exp) -> cal_max_exp_height exp 
-	| Seq(dec1, dec2) -> max2 cal_max_dec_height dec1 dec2
+	| Rec(str1, str2,exp) -> 1+cal_max_exp_height exp 
+	| Seq(dec1, dec2) -> 1+max2 cal_max_dec_height dec1 dec2
 
 
 (* Problem 4 *)
@@ -93,7 +93,7 @@ let rec freeVarsInExp exp =
 and freeAndBindingVarsInDec dec =
 	match dec with
 	Val(str,exp) -> (freeVarsInExp exp,[str])
-	| Rec(str1, str2, exp) -> (setminus (freeVarsInExp exp) [str1;str2],[str2])
+	| Rec(str1, str2, exp) -> (setminus (freeVarsInExp exp) [str1;str2],[str1])
 	| Seq(dec1, dec2) -> let (v1,b1) = freeAndBindingVarsInDec dec1 in
 						let (v2,b2) = freeAndBindingVarsInDec dec2 in
 						(union v1 (setminus v2 b1),union b1 b2)
