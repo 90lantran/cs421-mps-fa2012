@@ -99,6 +99,6 @@ and freeAndBindingVarsInDec dec =
 						(union v1 (setminus v2 b1),union b1 b2)
 
 (* Problem 5 *)
-let rec cps_exp e k kx =  raise (Failure "Not implemented yet.")
+let rec cps_exp e k kx = 
 
 and cps_dec dec ecps kx =  raise (Failure "Not implemented yet.")
