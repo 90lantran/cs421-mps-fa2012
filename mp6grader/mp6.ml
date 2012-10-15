@@ -92,4 +92,16 @@ let rec gather_exp_ty_substitution gamma exp tau =
     | _ -> raise (Failure "Not implemented yet")
 
 and gather_dec_ty_substitution gamma dec = 
-    raise (Failure "Not implemented yet")
+	match dec
+	with Val(x,e) ->
+		let tau1 = fresh() in
+      (match gather_exp_ty_substitution gamma e tau1
+       with None -> None
+       | Some(e_pf, sigma1) ->
+         let sigma1_gamma = env_lift_subst sigma1 gamma in
+         let x_ty = gen sigma1_gamma (monoTy_lift_subst sigma1 tau1) in
+         let judgment = DecJudgment(gamma,dec,sigma1_gamma) in
+         Some(Proof([e_pf],judgment), (ins_env sigma1_gamma x x_ty) ,sigma1))
+	| Rec(f,x,e) -> raise (Failure "Not implemented yet")
+	| Seq(dec1,dec2) -> raise (Failure "Not implemented yet")
+	| Local(dec1,dec2) -> raise (Failure "Not implemented yet")
