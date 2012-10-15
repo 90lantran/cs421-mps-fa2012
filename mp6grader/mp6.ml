@@ -60,7 +60,7 @@ let rec gather_exp_ty_substitution gamma exp tau =
               with None -> None
               | Some (else_pf, sigma3) ->
                 Some(Proof([bool_pf; then_pf; else_pf],judgment), (subst_compose sigma3 sigma21)))
-                )))
+                ))
 	 | AppExp (e1, e2) ->
       let tau1 = fresh() in
       (match
