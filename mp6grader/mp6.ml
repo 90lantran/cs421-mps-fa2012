@@ -103,6 +103,18 @@ and gather_dec_ty_substitution gamma dec =
          let newGamma = (ins_env sigma1_gamma x x_ty) in
          let judgment = DecJudgment(gamma,dec,newGamma) in
          Some(Proof([e_pf],judgment), newGamma ,sigma1))
-	| Rec(f,x,e) -> raise (Failure "Not implemented yet")
+	| Rec(f,x,e) ->
+		let (tau1, tau2) = (fresh(),fresh()) in
+      (match gather_exp_ty_substitution
+              (ins_env (ins_env gamma x ([],tau1)) f ([],(mk_fun_ty tau1 tau2)))
+              e1 tau2
+       with None -> None
+       | Some (e1_pf, sigma1) ->
+         (let sigma1_gamma = env_lift_subst sigma1 gamma in
+          let f_ty =
+            gen sigma1_gamma (monoTy_lift_subst sigma1 (mk_fun_ty tau1 tau2)) in
+          let newGamma = (ins_env sigma1_gamma f f_ty) in
+          let judgment = DecJudgment(gamma,dec,newGamma) in
+          Some(Proof([e1_pf],judgment), newGamma ,sigma1))
 	| Seq(dec1,dec2) -> raise (Failure "Not implemented yet")
 	| Local(dec1,dec2) -> raise (Failure "Not implemented yet")
