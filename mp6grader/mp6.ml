@@ -89,8 +89,15 @@ let rec gather_exp_ty_substitution gamma exp tau =
        with None -> None
        | Some (pf, sigma) -> 
        		Some(Proof([pf],judgment), sigma))
-    | _ -> raise (Failure "Not implemented yet")
-
+    | LetExp (dec, e) ->
+    	(match gather_dec_ty_substitution gamma dec 
+    	with None -> None
+    	| Some (e1_pf, newGamma, sigmal) ->
+    		(match gather_exp_ty_substitution newGamma e (monoTy_lift_subst sigma1 tau)
+    		with None -> None
+    		| Some(e2_pf, sigma2) ->
+    			Some(Proof([e1_pf; e2_pf],judgment), (subst_compose sigma2 sigma1))))
+    	
 and gather_dec_ty_substitution gamma dec = 
 	match dec
 	with Val(x,e) ->
@@ -116,5 +123,13 @@ and gather_dec_ty_substitution gamma dec =
           let newGamma = (ins_env sigma1_gamma f f_ty) in
           let judgment = DecJudgment(gamma,dec,newGamma) in
           Some(Proof([e1_pf],judgment), newGamma ,sigma1)))
-	| Seq(dec1,dec2) -> raise (Failure "Not implemented yet")
+	| Seq(dec1,dec2) ->
+		match gather_dec_ty_substitution gamma dec1
+		with None -> None
+		| Some (e1_pf, newGamma, sigma1) ->
+			match gather_dec_ty_substitution newGamma dec2 with 
+			None -> None
+			| Some(e2_pf,newGamma2,sigma2) ->
+				let judgment = DecJudgment(gamma,dec2,newGamma2) in
+				Some(Proof([e1_pf;e2_pf],judgment), newGamma2 ,(subst_compose sigma2 sigma1))
 	| Local(dec1,dec2) -> raise (Failure "Not implemented yet")
