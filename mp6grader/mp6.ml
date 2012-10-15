@@ -92,12 +92,12 @@ let rec gather_exp_ty_substitution gamma exp tau =
     | LetExp (dec, e) ->
     	(match gather_dec_ty_substitution gamma dec 
     	with None -> None
-    	| Some (e1_pf, newGamma, sigmal) ->
+    	| Some (e1_pf, newGamma, sigma1) ->
     		(match gather_exp_ty_substitution newGamma e (monoTy_lift_subst sigma1 tau)
     		with None -> None
     		| Some(e2_pf, sigma2) ->
     			Some(Proof([e1_pf; e2_pf],judgment), (subst_compose sigma2 sigma1))))
-    	
+
 and gather_dec_ty_substitution gamma dec = 
 	match dec
 	with Val(x,e) ->
