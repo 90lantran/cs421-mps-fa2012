@@ -1,5 +1,24 @@
 (* File: mp6-sol.ml *)
 
+(*
+External Citing Notice
+
+I really got stuck when I was doing this mp. I could not fully understand and 
+remember all functions, types and variables defined in the settings in this mp.
+
+For better understanding of the types, functions and variables, 
+before providing my own code, I carefully read the solution for mp5 from Fall 2011
+
+Some of the codes, though not directly copied from, have similar styles and 
+variable definitions as the code in the solution for mp5 from Fall 2011.
+
+
+Here I cite the source of mp5 from fall 2011 through the website below:
+http://courses.engr.illinois.edu/cs421/fa2011/mps/MP5/
+
+
+*)
+
 open Mp6common
 
 let rec gather_exp_ty_substitution gamma exp tau =
