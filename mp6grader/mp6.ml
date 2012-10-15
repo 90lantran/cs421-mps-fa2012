@@ -107,7 +107,7 @@ and gather_dec_ty_substitution gamma dec =
 		let (tau1, tau2) = (fresh(),fresh()) in
       (match gather_exp_ty_substitution
               (ins_env (ins_env gamma x ([],tau1)) f ([],(mk_fun_ty tau1 tau2)))
-              e1 tau2
+              e tau2
        with None -> None
        | Some (e1_pf, sigma1) ->
          (let sigma1_gamma = env_lift_subst sigma1 gamma in
