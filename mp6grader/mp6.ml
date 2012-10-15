@@ -100,8 +100,9 @@ and gather_dec_ty_substitution gamma dec =
        | Some(e_pf, sigma1) ->
          let sigma1_gamma = env_lift_subst sigma1 gamma in
          let x_ty = gen sigma1_gamma (monoTy_lift_subst sigma1 tau1) in
-         let judgment = DecJudgment(gamma,dec,sigma1_gamma) in
-         Some(Proof([e_pf],judgment), (ins_env sigma1_gamma x x_ty) ,sigma1))
+         let newGamma = (ins_env sigma1_gamma x x_ty) in
+         let judgment = DecJudgment(gamma,dec,newGamma) in
+         Some(Proof([e_pf],judgment), newGamma ,sigma1))
 	| Rec(f,x,e) -> raise (Failure "Not implemented yet")
 	| Seq(dec1,dec2) -> raise (Failure "Not implemented yet")
 	| Local(dec1,dec2) -> raise (Failure "Not implemented yet")
