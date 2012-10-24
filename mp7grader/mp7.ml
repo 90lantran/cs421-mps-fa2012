@@ -59,7 +59,7 @@ let rec unify eqlst : substitution option =
                   (monoTy_lift_subst [(n,t)] x1, monoTy_lift_subst [(n,t)] x2)) 
                 resteq in 
                 (match unify newresteq with None -> None
-                      | Some(p) -> Some((n, monoTy_lift_subst p t):: p)))
+                      | Some(p) -> Some((n, monoTy_lift_subst p t):: p))
           | (TyConst(h, tail), TyConst(h', tail')) -> 
               if h=h' then 
                 (match (newAdd tail tail' resteq) with 
@@ -68,6 +68,7 @@ let rec unify eqlst : substitution option =
               else None
           | (TyConst(h, tail), TyVar(m)) -> 
               unify ((TyVar(m), TyConst(h, tail))::resteq)
+            )
 
 (* Problem 6 *)
 
