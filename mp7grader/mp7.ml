@@ -13,59 +13,55 @@ not directly copied from mp6, has similar structures and implimentations as mp6 
 open Mp7common
 
 (* Problem 1 *)
-let asMonoTy1 () = mk_fun_ty bool_ty (mk_list_ty int_ty);;
+let asMonoTy1 () = 
+  mk_fun_ty bool_ty (mk_list_ty int_ty);;
 let asMonoTy2 () =
     mk_fun_ty (fresh()) (mk_fun_ty (fresh()) (mk_fun_ty (fresh()) (fresh())));;
-let asMonoTy3 () = mk_fun_ty (fresh()) (mk_list_ty (mk_pair_ty (fresh()) int_ty));;
-let asMonoTy4 () = mk_pair_ty string_ty (mk_fun_ty (mk_list_ty (fresh())) (fresh()));;
+let asMonoTy3 () = 
+  mk_fun_ty (fresh()) (mk_list_ty (mk_pair_ty (fresh()) int_ty));;
+let asMonoTy4 () = 
+  mk_pair_ty string_ty (mk_fun_ty (mk_list_ty (fresh())) (fresh()));;
 
 (* Problem 2 *)
 let rec subst_fun subst m =
     match subst with [] -> TyVar m
-    | (n,ty) :: more -> if n = m then ty else subst_fun more m
+    | (a,b) :: rest -> if a = m then b else subst_fun rest m
 
 (* Problem 3 *)
 let rec monoTy_lift_subst subst monoTy =
     match monoTy
     with TyVar m -> subst_fun subst m
-    | TyConst(c, typelist) -> TyConst(c, List.map (monoTy_lift_subst subst) typelist)
+    | TyConst(n, typel) -> TyConst(n, List.map (monoTy_lift_subst subst) typel)
 
 (* Problem 4 *)
 let rec occurs x ty =
-    match ty
-    with TyVar n -> x = n
-    | TyConst(c, typelist) -> List.exists (occurs x) typelist
+    match ty with TyVar m -> x = m
+    | TyConst(n, typel) -> List.exists (occurs x) typel
 
 (* Problem 5 *)
 let rec unify eqlst : substitution option =
-  let rec addNewEqs lst1 lst2 acc =
-    match lst1,lst2 with
-      [],[] -> Some acc
-    | t::tl, t'::tl' -> addNewEqs tl tl' ((t,t')::acc)
+  let rec newAdd l1 l2 m =
+    match l1,l2 with [],[] -> Some m
+    | h::tail, h'::tail' -> newAdd tail tail' ((h,h')::m)
     | _ -> None
   in
-  match eqlst with
-    [] -> Some([])
-  | (s,t)::eqs ->
-    (* Delete *)
-    if s = t then unify eqs
+  match eqlst with [] -> Some([])
+  | (s,t)::resteq ->
+    if s = t then unify resteq
     else (match (s,t) 
-    (* Decompose *)
           with (TyConst(c, tl), TyConst(c', tl')) ->
-            if c=c' then (match (addNewEqs tl tl' eqs) with None -> None | Some l -> unify l)
+            if c=c' then (match (newAdd tl tl' resteq) with None -> None | Some l -> unify l)
             else None
-    (* Orient *)
-          | (TyConst(c, tl), TyVar(m)) -> unify ((TyVar(m), TyConst(c, tl))::eqs)
-    (* Eliminate *)
+          | (TyConst(c, tl), TyVar(m)) -> unify ((TyVar(m), TyConst(c, tl))::resteq)
           | (TyVar(n),t) ->
              if (occurs n t)
              then None
-             else let eqs' =
+             else let resteq' =
                       List.map
                       (fun (t1,t2) ->
                            (monoTy_lift_subst [(n,t)] t1, monoTy_lift_subst [(n,t)] t2))
-                      eqs
-                   in (match unify eqs'
+                      resteq
+                   in (match unify resteq'
                        with None -> None
                        | Some(phi) -> Some((n, monoTy_lift_subst phi t):: phi)))
 
