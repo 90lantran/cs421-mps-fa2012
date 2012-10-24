@@ -88,4 +88,4 @@ let rec rec_canon su m ty =
 
 let equiv_types ty1 ty2 =
    let ty1' = helpcanon ty1 in
-   let ty2' = helpcanon ty2 in ty1' = 'ty2;;
+   let ty2' = helpcanon ty2 in ty1' = ty2';;
