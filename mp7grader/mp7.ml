@@ -78,7 +78,7 @@ let helpcanon inputty =
 let rec rec_canon su m ty =
    match ty with 
    | TyVar n -> (match findfirst (fun p -> fst p = n) su with 
-            | Some (l1,l2) -> (su, m, TyVar k)
+            | Some (l1,l2) -> (su, m, TyVar l2)
             | None -> ((n,m)::su), m+1, TyVar m)
    | TyConst (c, tys) ->
      (match List.fold_left (fun (su, n, tyl) -> fun ty -> 
