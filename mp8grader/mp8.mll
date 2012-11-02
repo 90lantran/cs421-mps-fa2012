@@ -32,7 +32,6 @@ rule token = parse
 
 (* your rules go here *)
 
-  | ";;"  { cinc 2; DBLSEMI  }
   | "~"   { cinc 1; NEG  }
   | "+"   { cinc 1; PLUS  }
   | "-"   { cinc 1; MINUS  }
