@@ -1,3 +1,11 @@
+(*
+Reference: 
+Part of the code is copied from mp7 in Fall 2011:
+    http://courses.engr.illinois.edu/cs421/fa2011/mps/MP7/
+  *)
+
+
+
 {
 
 open Mp8common;;
@@ -22,9 +30,10 @@ let open_comment = "(*"
 let close_comment = "*)"
 let super_close_comment = "**)"
 
-let escapednum = '0' numeric numeric | '1' numeric numeric | '2' ['0' - '4'] numeric | "25" ['0' -'5']
+(*let excape_num = '0' numeric numeric | '1' numeric numeric | '2' ['0' - '4'] numeric | "25" ['0' -'5']*)
+let excape_num = numeric numeric
 
-let printable_char = ' ' | '!' | ['#' - '['] | [']' - '~']
+let char_printable = ' ' | '!' | ['#' - '['] | [']' - '~']
 
 rule token = parse
   | [' ' '\t' '\n'] { token lexbuf }  (* skip over whitespace *)
@@ -82,7 +91,7 @@ rule token = parse
   | "_"   { cinc 1; UNDERSCORE }
 
   | numeric+ as s { cinc (String.length s); INT (int_of_string s) }
-  | (numeric+'.'(numeric*)) as s       { cinc (String.length s); FLOAT (float_of_string s) }
+  | (numeric+'.'(numeric*)) as s       { cinc (String.length s); REAL (float_of_string s) }
 
   | "true"  { cinc 4; BOOL true }
   | "false" { cinc 5; BOOL false }
@@ -91,7 +100,7 @@ rule token = parse
   | (lowercase (id_char*)) as s   { cinc (String.length s); IDENT s }
 
   | ("//"([^'\n']*)) as s    { cinc (String.length s); token lexbuf }
-  | open_comment     { cinc 2; comment [({line_num = !line_count; char_num = !char_count - 2}:Mp7common.position)] lexbuf }
+  | open_comment     { cinc 2; comment [({line_num = !line_count; char_num = !char_count - 2}:Mp8common.position)] lexbuf }
 (*
   | close_comment    { raise (Failure "unmatched close comment") }
   | super_close_comment    { raise (Failure "unmatched super close comment") }
@@ -113,16 +122,16 @@ and comment open_dimens = parse
  | _                   { cinc 1; comment open_dimens lexbuf }
 
 and string start_string = parse
-   "\""   { cinc 1; STRING start_string }
  | "\\\\" { cinc 2; string (start_string ^ "\\") lexbuf }
+ | "\""   { cinc 1; STRING start_string}
  | "\\'"  { cinc 2; string (start_string ^ "'") lexbuf }
  | "\\\"" { cinc 2; string (start_string ^ "\"") lexbuf }
  | "\\t"  { cinc 2; string (start_string ^ "\t") lexbuf }
  | "\\n"  { cinc 2; string (start_string ^ "\n") lexbuf }
  | "\\r"  { cinc 2; string (start_string ^ "\r") lexbuf }
  | "\n"   { linc 1; string (start_string ^ "\n") lexbuf }
- | "\\" (escapednum as ch)  { cinc 4; string (start_string ^ (String.make 1 (char_of_int (int_of_string ch)))) lexbuf }
- | printable_char as c  { cinc 1; string (start_string ^ (String.make 1 c)) lexbuf }
+ | "\\x" (excape_num as ch)  { cinc 4; string (start_string ^ (String.make 1 (char_of_int (int_of_string ("0x"^ch) ) ))) lexbuf }
+ | char_printable as c  { cinc 1; string (start_string ^ (String.make 1 c)) lexbuf }
 
 
 
